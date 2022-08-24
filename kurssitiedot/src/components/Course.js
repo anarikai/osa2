@@ -26,11 +26,25 @@ const Course = (props) => {
         )
     }
 
+    const Total = (props) => {
+        const { parts } = props
+        console.log(parts)
+        let sum = 0
+        for (let i in parts) {
+            sum += parts[i].exercises
+        }
+        return (
+            <h2>
+                Total of {sum} exercises
+            </h2>
+        )
+    }
+
     return (
         <div>
-            
             <Header course={props.course} />
             <Content parts={props.course.parts} />
+            <Total parts={props.course.parts} />
         </div>
     )
 }
