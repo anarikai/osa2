@@ -28,15 +28,20 @@ const Course = (props) => {
 
     const Total = (props) => {
         const { parts } = props
-        console.log(parts)
-        let sum = 0
+        const initialValue = 0
+        const array = []
         for (let i in parts) {
-            sum += parts[i].exercises
+            array.push(parts[i].exercises)
         }
+        //console.log('taulukko ', array)
+        const sumWithInitial = array.reduce(
+            (previousValue, currentValue) => previousValue + currentValue,
+            initialValue
+        );
         return (
-            <h2>
-                Total of {sum} exercises
-            </h2>
+            <h3>
+               Total of { sumWithInitial } exercises
+            </h3>
         )
     }
 
