@@ -2,18 +2,19 @@ const Course = (props) => {
 
     const Header = (props) => {
         return (
-            <h1>
-            {props.course.name}
-            </h1>
+            <div>
+                <h1 key={props.course.id}>{props.course.name}</h1>
+            </div>
         )
     }
 
     const Part = (props) => {
         return (
         <div>
-            {props.array.map(ex =>
-            <p key={ex.id}>{ex.name} {ex.exercises}</p>
-            )}
+            <Header course={props.array} />
+            {props.array.parts.map(part =>
+            <p key={part.id}>{part.name} {part.exercises}</p>)}
+            <Total total={props.array.parts} />
         </div>
         )
     }
@@ -21,35 +22,28 @@ const Course = (props) => {
     const Content = (props) => {
         return (
         <div>
-            <Part array={props.parts} />
+            {props.parts.map((part, i) => <Part key={i} array={part} /> )}
         </div>
         )
     }
 
     const Total = (props) => {
-        const { parts } = props
         const initialValue = 0
-        const array = []
-        for (let i in parts) {
-            array.push(parts[i].exercises)
-        }
-        //console.log('taulukko ', array)
-        const sumWithInitial = array.reduce(
+        const exercises = props.total.map(ex => ex.exercises)
+        const sumWithInitial = exercises.reduce(
             (previousValue, currentValue) => previousValue + currentValue,
             initialValue
         );
         return (
             <h3>
-               Total of { sumWithInitial } exercises
+               total of { sumWithInitial } exercises
             </h3>
         )
     }
 
     return (
         <div>
-            <Header course={props.course} />
-            <Content parts={props.course.parts} />
-            <Total parts={props.course.parts} />
+            <Content parts={props.courses} />
         </div>
     )
 }
