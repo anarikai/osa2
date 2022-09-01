@@ -11,8 +11,16 @@ const App = () => {
     const nameObject = {
       name: newName
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+    console.log(newName);
+    console.log(persons);
+    const personNames = persons.map(p => p.name.toLocaleLowerCase());
+    if (!personNames.includes(newName.toLowerCase())) {
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }
+    if (personNames.includes(newName.toLowerCase())) {
+      alert(`${newName} is already added to phonebook`)
+    }
   }
 
   const handleNameChange = (event) => {
@@ -32,8 +40,8 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person,i) =>
-        <p key={i}>{person.name}</p>)}
+      {persons.map(person =>
+        <p key={person.name}>{person.name}</p>)}
     </div>
   )
 
