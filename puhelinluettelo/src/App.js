@@ -1,11 +1,16 @@
 import { useState } from 'react'
+import Name from './components/Name'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number:'040-1231244' }
+    { name: 'Arto Hellas', number:'040-1231244' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filteredPersons, setFilteredPersons] = useState(persons)
 
   const addName = (event) => {
     event.preventDefault()
@@ -15,7 +20,7 @@ const App = () => {
     }
     console.log(newName);
     console.log(persons);
-    const personNames = persons.map(p => p.name.toLocaleLowerCase());
+    const personNames = persons.map(p => p.name.toLowerCase());
     if (!personNames.includes(newName.toLowerCase())) {
       setPersons(persons.concat(nameObject))
       setNewName('')
@@ -25,7 +30,7 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     }
     if (newName === "") {
-      alert(`Can't add an empty name. Please enter name.`)
+      alert(`You can not add an empty name.`)
     }
   }
 
@@ -39,10 +44,16 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleFilterChange = (event) => {
+    setFilteredPersons(persons.filter(person =>
+      person.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1
+      ));
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>filter shown with <input /></div>
+      <div>filter shown with <input onChange={handleFilterChange} /></div>
       <h2>add a new</h2>
       <form onSubmit={addName}>
         <div>
@@ -56,8 +67,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person =>
-        <p key={person.name}>{person.name} {person.number}</p>)}
+      {filteredPersons.map(person => <Name key={person.name} name={person} />)}
     </div>
   )
 
